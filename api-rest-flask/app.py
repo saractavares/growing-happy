@@ -1,12 +1,19 @@
 import numpy as np
 from flask import Flask, jsonify, request
-from flask_restplus import Api, Resource,fields# vamos usar daqui a pouco
+# from flask_restplus import Api, Resource,fields# vamos usar daqui a pouco
+
+try:
+    from flask_restplus import Resource, Api, fields
+except ImportError:
+    import werkzeug
+    werkzeug.cached_property = werkzeug.utils.cached_property
+    from flask_restplus import Resource, Api, fields
 
 app  = Flask(__name__)
 
 import pickle
 ## carregando o modelo para o código
-with open("./utils/model.pickle","rb") as f:
+with open("./api-rest-flask/utils/model.pickle","rb") as f:
     #Carrega o arquivo model.pickle em modo read binary
     modelo_carregado = pickle.load(f)
 
